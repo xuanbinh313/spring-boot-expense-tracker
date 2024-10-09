@@ -12,12 +12,16 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Table(name = "users")
 @Data
 @Entity
+@NoArgsConstructor
+@AllArgsConstructor
 @Builder
 public class User implements UserDetails {
     @Id
@@ -26,8 +30,10 @@ public class User implements UserDetails {
 
     @Column(unique = true, nullable = false)
     private String email;
+
     @Column(name = "full_name", nullable = false)
     private String fullName;
+    
     @Column(nullable = false)
     private String password;
 

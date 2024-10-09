@@ -40,11 +40,11 @@ public class Expense {
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    @Column(name = "created_at", updatable = false, nullable = false)
     @CreationTimestamp
+    @Column(name = "created_at", updatable = false, nullable = false)
     private String createdAt;
 
-    @Column(name = "updated_at")
     @UpdateTimestamp
+    @Column(name = "updated_at")
     private String updatedAt;
 }

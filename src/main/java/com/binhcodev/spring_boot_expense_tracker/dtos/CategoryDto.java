@@ -6,10 +6,12 @@ import jakarta.validation.constraints.NotBlank;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Data
 @Builder
 @NoArgsConstructor
+@ToString
 public class CategoryDto {
     private String slug;
 
@@ -17,15 +19,14 @@ public class CategoryDto {
     private String name;
 
     private String description;
-   final Slugify slg = Slugify.builder().build();
+    final Slugify slg = Slugify.builder().build();
 
     public CategoryDto(String slug, String name, String description) {
-        if(slug == null) {
+        if (slug == null || slug.isBlank()) {
             this.slug = slg.slugify(name);
         } else {
             this.slug = slug;
         }
-        this.slug = slug;
         this.name = name;
         this.description = description;
     }
