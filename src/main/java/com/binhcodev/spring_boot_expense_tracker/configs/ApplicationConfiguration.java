@@ -12,10 +12,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import com.binhcodev.spring_boot_expense_tracker.repositories.UserRepository;
 
-import lombok.extern.log4j.Log4j2;
 
 
-@Log4j2
 @Configuration
 public class ApplicationConfiguration {
     private final UserRepository userRepository;
@@ -25,6 +23,7 @@ public class ApplicationConfiguration {
 
     @Bean
     UserDetailsService userDetailsService() {
+        System.out.println("TEST-----------------------------UserDetailsService");
         return username -> userRepository.findByEmail(username)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found"));
     }
@@ -36,13 +35,12 @@ public class ApplicationConfiguration {
 
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
-        log.info("ApplicationConfiguration.authenticationManager");
+        System.out.println("TEST-----------------------------AuthenticationManager");
         return config.getAuthenticationManager();
     }
 
     @Bean
     AuthenticationProvider authenticationProvider() {
-        log.info("ApplicationConfiguration.authenticationProvider");
         DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
 
         authProvider.setUserDetailsService(userDetailsService());

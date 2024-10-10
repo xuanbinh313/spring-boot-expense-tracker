@@ -1,6 +1,5 @@
 package com.binhcodev.spring_boot_expense_tracker.exceptions;
 
-import org.springframework.beans.factory.parsing.Problem;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ProblemDetail;
 import org.springframework.security.access.AccessDeniedException;

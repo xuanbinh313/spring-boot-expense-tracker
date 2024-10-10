@@ -1,6 +1,7 @@
 package com.binhcodev.spring_boot_expense_tracker.entities;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;

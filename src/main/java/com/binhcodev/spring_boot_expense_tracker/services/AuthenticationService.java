@@ -10,22 +10,14 @@ import com.binhcodev.spring_boot_expense_tracker.dtos.RegisterUserDto;
 import com.binhcodev.spring_boot_expense_tracker.entities.User;
 import com.binhcodev.spring_boot_expense_tracker.repositories.UserRepository;
 
+import lombok.AllArgsConstructor;
+
 @Service
+@AllArgsConstructor
 public class AuthenticationService {
     private final UserRepository userRepository;
-
     private final PasswordEncoder passwordEncoder;
-
     private final AuthenticationManager authenticationManager;
-
-    public AuthenticationService(
-            UserRepository userRepository,
-            AuthenticationManager authenticationManager,
-            PasswordEncoder passwordEncoder) {
-        this.authenticationManager = authenticationManager;
-        this.userRepository = userRepository;
-        this.passwordEncoder = passwordEncoder;
-    }
 
     public User signup(RegisterUserDto input) {
         User user = User
