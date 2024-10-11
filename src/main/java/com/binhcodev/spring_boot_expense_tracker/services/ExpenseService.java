@@ -2,11 +2,10 @@ package com.binhcodev.spring_boot_expense_tracker.services;
 
 import java.util.List;
 import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import com.binhcodev.spring_boot_expense_tracker.dtos.ExpenseDto;
+import com.binhcodev.spring_boot_expense_tracker.dtos.ExpenseParamsDto;
 import com.binhcodev.spring_boot_expense_tracker.entities.Category;
 import com.binhcodev.spring_boot_expense_tracker.entities.Expense;
 import com.binhcodev.spring_boot_expense_tracker.entities.User;
@@ -28,8 +27,9 @@ public class ExpenseService {
     @Autowired
     private CategoryRepository categoryRepository;
 
-    public List<Expense> findAll() {
-        return expenseRepository.findAll();
+
+    public List<Expense> findAllByCondition(ExpenseParamsDto expenseParamsDto) {
+        return expenseRepository.findAllByCondition(expenseParamsDto.getDescription(), expenseParamsDto.getCategories(), expenseParamsDto.getFrom(), expenseParamsDto.getTo());
     }
 
     public Expense create(ExpenseDto expenseDto) {
@@ -42,6 +42,7 @@ public class ExpenseService {
             .description(expenseDto.getDescription())
             .categories(categories)
             .user(currentUser.get())
+            .amount(expenseDto.getAmount())
             .build();
             return expenseRepository.save(expense);
         }
