@@ -9,6 +9,19 @@ import org.springframework.data.repository.query.Param;
 import com.binhcodev.spring_boot_expense_tracker.entities.Expense;
 
 public interface ExpenseRepository extends JpaRepository<Expense, Long> {
-    @Query("SELECT e FROM Expense e JOIN e.categories c WHERE (:description IS NULL OR e.description LIKE %:description%) AND (:categories IS NULL OR c.id IN :categories) AND (:from IS NULL OR e.createdAt >= :from) AND (:to IS NULL OR e.createdAt <= :to)")
-    public List<Expense> findAllByCondition(@Param("description") String description,@Param("categories") List<Long> categories, @Param("from") LocalDate from, @Param("to") LocalDate to);
+    @Query("SELECT e FROM Expense e JOIN e.categories c WHERE (:description IS NULL OR e.description LIKE %:description%) AND (:categories IS NULL OR c.id IN :categories) AND (DATE(e.createdAt) >= :from) AND (DATE(e.createdAt) <= :to)")
+    public List<Expense> findAllByAllCondition(@Param("description") String description,
+            @Param("categories") List<Long> categories, @Param("from") LocalDate from, @Param("to") LocalDate to);
+
+    @Query("SELECT e FROM Expense e JOIN e.categories c WHERE (:description IS NULL OR e.description LIKE %:description%) AND (:categories IS NULL OR c.id IN :categories)")
+    public List<Expense> findAllByWithoutDateRange(@Param("description") String description,
+            @Param("categories") List<Long> categories);
+
+    @Query("SELECT e FROM Expense e JOIN e.categories c WHERE (:description IS NULL OR e.description LIKE %:description%) AND (:categories IS NULL OR c.id IN :categories) AND (DATE(e.createdAt) >= :from) AND (DATE(e.createdAt) >= :from)")
+    public List<Expense> findAllByDateFrom(@Param("description") String description,
+            @Param("categories") List<Long> categories, @Param("from") LocalDate from);
+
+    @Query("SELECT e FROM Expense e JOIN e.categories c WHERE (:description IS NULL OR e.description LIKE %:description%) AND (:categories IS NULL OR c.id IN :categories) AND (DATE(e.createdAt) <= :to)")
+    public List<Expense> findAllByDateTo(@Param("description") String description,
+            @Param("categories") List<Long> categories, @Param("to") LocalDate to);
 }
