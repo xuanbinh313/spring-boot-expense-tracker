@@ -4,9 +4,12 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -32,6 +35,19 @@ public class ExpenseController {
         return ResponseEntity.ok(response);
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<ExpenseResponse> getOne(@PathVariable Long id) {
+        Expense expense = expenseService.findOne(id);
+        ExpenseResponse response = ExpenseResponse.builder()
+                .id(expense.getId())
+                .description(expense.getDescription())
+                .categories(expense.getCategories())
+                .amount(expense.getAmount())
+                .createdAt(expense.getCreatedAt())
+                .build();
+        return ResponseEntity.ok(response);
+    }
+
     @PostMapping
     public ResponseEntity<ExpenseResponse> createExpense(@Valid @RequestBody ExpenseDto body) {
         Expense expense = expenseService.create(ExpenseDto.builder()
@@ -47,6 +63,29 @@ public class ExpenseController {
                 .createdAt(expense.getCreatedAt())
                 .build();
         return ResponseEntity.ok(response);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<ExpenseResponse> updateExpense(@PathVariable Long id, @Valid @RequestBody ExpenseDto body) {
+        Expense expense = expenseService.update(id, ExpenseDto.builder()
+                .description(body.getDescription())
+                .categories(body.getCategories())
+                .amount(body.getAmount())
+                .build());
+        ExpenseResponse response = ExpenseResponse.builder()
+                .id(expense.getId())
+                .description(expense.getDescription())
+                .categories(expense.getCategories())
+                .amount(expense.getAmount())
+                .createdAt(expense.getCreatedAt())
+                .build();
+        return ResponseEntity.ok(response);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteExpense(@PathVariable Long id) {
+        expenseService.delete(id);
+        return ResponseEntity.noContent().build();
     }
 
 }

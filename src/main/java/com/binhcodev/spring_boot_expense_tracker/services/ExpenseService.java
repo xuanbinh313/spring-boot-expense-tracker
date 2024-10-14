@@ -70,4 +70,28 @@ public class ExpenseService {
 
     }
 
+    public Expense findOne(Long id) {
+        Optional<Expense> expense = expenseRepository.findById(id);
+        if (expense.isPresent()) {
+            return expense.get();
+        }
+        return null;
+    }
+
+    public void delete(Long id) {
+        expenseRepository.deleteById(id);
+    }
+
+    public Expense update(Long id, ExpenseDto expenseDto) {
+        Optional<Expense> expense = expenseRepository.findById(id);
+        List<Category> categories = categoryRepository.findAllById(expenseDto.getCategories());
+        if (expense.isPresent()) {
+            expense.get().setDescription(expenseDto.getDescription());
+            expense.get().setCategories(categories);
+            expense.get().setAmount(expenseDto.getAmount());
+            return expenseRepository.save(expense.get());
+        }
+        return null;
+    }
+
 }

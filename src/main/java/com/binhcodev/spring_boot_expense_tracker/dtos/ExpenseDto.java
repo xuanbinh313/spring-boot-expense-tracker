@@ -1,5 +1,7 @@
 package com.binhcodev.spring_boot_expense_tracker.dtos;
 
+import java.util.List;
+
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Positive;
@@ -19,7 +21,7 @@ public class ExpenseDto {
     private String description;
 
     @NotEmpty(message = "Categories are required")
-    private Iterable<Long> categories;
+    private List<Long> categories;
 
     @Positive(message = "Amount must be greater than zero")
     private Float amount;
